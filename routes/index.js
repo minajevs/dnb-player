@@ -3,15 +3,18 @@ var router = express.Router();
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  res.render('index',
-      {
-        title: 'Express',
-      });
+    var songs = req.songs.data.slice(),
+        currentSong = songs.pop();
+    res.render('index',
+        {
+          title: 'DnB Player!',
+            songs: songs,
+            currentSong: currentSong
+        });
 });
 
 router.get('/tracklist', function(req, res, next) {
   var songs = req.songs.data;
-  console.log(songs);
   res.render('tracklist',
       {
           title: 'Tracklist',

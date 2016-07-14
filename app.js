@@ -8,6 +8,7 @@ var bodyParser = require('body-parser');
 var routes = require('./routes/index');
 var users = require('./routes/users');
 
+//DATABASE
 var loki = require('lokijs'),
     db = new loki('data/data.json');
 
@@ -16,6 +17,7 @@ var songs = db.addCollection('songs');
 songs.insert({
   name: "never gonna give you up",
   duration: "2:01",
+  url: "",
   year: 1999
 });
 
@@ -26,7 +28,7 @@ songs.insert({
 });
 
 songs.insert({
-  name: "sandstorm",
+  name: "Darude - Sandstorm",
   duration: "1:33",
   year: 2000
 });

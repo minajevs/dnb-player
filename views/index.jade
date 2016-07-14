@@ -1,5 +1,20 @@
 extends layout
 
 block content
-  h1= title
-  p Welcome to #{title}
+  .ui.middle.aligned.center.aligned.grid
+    .column
+      h2.ui.teal.image.header
+        img.image(src='http://semantic-ui.com/examples/assets/images/logo.png')
+        .content
+          | DnB Player
+      .ui.large.form
+        .ui.stacked.segment
+          include ./player.jade
+      .ui.message#time
+        | New to us?
+block scripts
+  script(src="https://cdn.socket.io/socket.io-1.4.5.js")
+  script(src="/js/player.js")
+
+
+
