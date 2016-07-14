@@ -1,0 +1,9 @@
+extends layout
+
+block content
+    h1 Tracklist:
+    each song in songs
+        div
+            h2= song.name
+            p= song.duration
+            p= song.year
