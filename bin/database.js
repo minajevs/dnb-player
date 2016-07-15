@@ -13,8 +13,10 @@ database.init = function(){
 
         if(!songs){
             songs = db.addCollection('songs');
-            database.initSongs();
+            initSongs(songs);
         }
+
+        initSongs(songs);
 
         database.songs = songs;
         database.ready = true;
@@ -49,12 +51,12 @@ database.findSongs = function(name, tags){
 };
 
 
-database.initSongs = function() {
-    this.songs.clear();
-    this.songs.insert(new Song("never gonna give you up", ""));
-    this.songs.insert(new Song("Adele - Hello", ""));
-    this.songs.insert(new Song("Darude - Sandstorm", ""));
-    this.songs.insert(new Song("Skrillex - Scary Monsters and Nice Sprites", ""));
+var initSongs = function(songs) {
+    songs.clear();
+    songs.insert(new Song("never gonna give you up", ""));
+    songs.insert(new Song("Adele - Hello", ""));
+    songs.insert(new Song("Darude - Sandstorm", ""));
+    songs.insert(new Song("Skrillex - Scary Monsters and Nice Sprites", ""));
     db.saveDatabase();
 };
 
