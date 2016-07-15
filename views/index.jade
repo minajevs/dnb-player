@@ -9,7 +9,14 @@ block content
           | DnB Player
       .ui.large.form
         .ui.stacked.segment
-          include ./player.jade
+          .field#songTitle
+            if currentSong
+              label #{currentSong.name}
+            else
+              label Not Playing
+          button.ui.labeled.icon.positive.button#playPause
+            i.play.icon
+            |   Play
       .ui.message#time
         | New to us?
 block scripts

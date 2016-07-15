@@ -6,34 +6,7 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
 var routes = require('./routes/index');
-var users = require('./routes/users');
 
-//DATABASE
-var loki = require('lokijs'),
-    db = new loki('data/data.json');
-
-var songs = db.addCollection('songs');
-
-songs.insert({
-  name: "never gonna give you up",
-  duration: "2:01",
-  url: "",
-  year: 1999
-});
-
-songs.insert({
-  name: "Adele - hello",
-  duration: "1:11",
-  year: 2016
-});
-
-songs.insert({
-  name: "Darude - Sandstorm",
-  duration: "1:33",
-  year: 2000
-});
-
-db.saveDatabase();
 var app = express();
 
 // view engine setup
@@ -48,16 +21,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-
-//Hook database to requests
-app.use((req, res, next) => {
-  req.songs = songs;
-  next();
-});
-
 app.use('/', routes);
-app.use('/users', users);
-app.use('/tracklist', users);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

@@ -28,6 +28,7 @@ var server = http.createServer(app);
 server.listen(port);
 server.on('error', onError);
 server.on('listening', onListening);
+var streamer = require('../streamer')(server);
 
 /**
  * Normalize a port into a number, string, or false.
@@ -88,19 +89,4 @@ function onListening() {
     : 'port ' + addr.port;
   debug('Listening on ' + bind);
 }
-
-//SOCKETS
-
-var io = require('socket.io').listen(server);
-
-function sendTime() {
-  io.emit('time', { time: new Date().toJSON() });
-}
-
-setInterval(sendTime, 1000);
-
-io.on('connection', function(socket) {
-  socket.emit('welcome', { message: 'Welcome!', id: socket.id });
-  socket.on('i am client', console.log);
-});
 
