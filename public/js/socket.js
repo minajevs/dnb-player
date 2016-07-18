@@ -9,9 +9,10 @@ socket.on('message', console.log.bind(console));
 var  Streamer = {};
 
 Streamer.getRandomSong = function(callback){
-    this._onGetRandomSong = callback;
+    var self = this;
+    self._onGetRandomSong = callback || function(){};
     socket.on('randomSong', function(data) {
-        Streamer._onGetRandomSong(data);
+        self._onGetRandomSong(data);
     });
     socket.emit('getRandomSong');
 };
