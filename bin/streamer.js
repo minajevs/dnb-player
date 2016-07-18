@@ -7,6 +7,7 @@ module.exports = function (server) {
     database.init();
 
     function sendRandomSong(id){
+        console.log('send random song called');
         if(database.ready){
             id = id || utils.getRandomInt(0, database.songs.count()-1);
             var send = database.songs.data[id];
@@ -19,7 +20,10 @@ module.exports = function (server) {
       socket.emit('syn', { message: 'Welcome!', id: socket.id });
       socket.on('ack', console.log);
 
-      socket.on('getRandomSong', () => {sendRandomSong()});
+      socket.on('getRandomSong', () => {
+          console.log('getrandomsong received');
+          sendRandomSong();
+      });
     });
 
     return streamer;

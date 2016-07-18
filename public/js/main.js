@@ -1,25 +1,11 @@
+var ppBtn = $('#playPause');
+var songName = $('#songTitle');
+var volumeBar = $('#volumeBar');
+var nextSong = $('#nextSong');
+
 $(document).ready(() => {
-    var ppBtn = $('#playPause');
-    var songName = $('#songTitle');
-    var volumeBar = $('#volumeBar');
     ppBtn.on('click', () => {
-        var self = ppBtn;
-        Player.toggle(
-            () => { //onPlay
-                songName.text(Player.song.name);
-                self.text('Stop');
-                self.prepend('<i class="stop icon"></i>');
-                self.addClass('negative');
-                self.removeClass('positive');
-            },
-            () => { //onPause
-                songName.text('Not Playing');
-                self.text('Play');
-                self.prepend('<i class="play icon"></i>');
-                self.addClass('positive');
-                self.removeClass('negative')
-            }
-        );
+        Player.toggle(onPlay, onPause);
     });
 
     volumeBar.on('input', () => {
@@ -27,7 +13,30 @@ $(document).ready(() => {
         Player.setVolume(self.val());
     });
 
+    nextSong.on('click', () => {
+        Player.pause();
+        Player.load(function(data){
+            console.log('loaded');
+            Player.play(onPlay);
+        });
+    });
 
     Player.init();
 });
+
+
+function onPlay(){
+    songName.text(Player.song.name);
+    ppBtn.text('Stop');
+    ppBtn.prepend('<i class="stop icon"></i>');
+    ppBtn.addClass('negative');
+    ppBtn.removeClass('positive');
+}
+
+function onPause(){
+    ppBtn.text('Play');
+    ppBtn.prepend('<i class="play icon"></i>');
+    ppBtn.addClass('positive');
+    ppBtn.removeClass('negative')
+}
 

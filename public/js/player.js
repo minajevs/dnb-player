@@ -2,18 +2,22 @@ var Player = {
     song: {},
     playing: false,
     volume: 5,
-    ctx: {},    //Buffer
-    buf: {}     //Context
+    ctx: {},            //Buffer
+    buf: {},            //Context
+    analyser: {},       //Analyser
 };
 
 Player.init = function(){
+    var self = this;
     try {
-        window.AudioContext = window.AudioContext||window.webkitAudioContext;
-        this.ctx = new AudioContext();
-
-        this.loadFile();
-        //this.audio = new Audio();
-        //this.audio.src = 'http://www.bornemark.se/bb/mp3_demos/PoA_Sorlin_-_Stay_Up.mp3';
+        Streamer.getRandomSong(data => {
+            self.song = data;
+            self.audio = new Audio();
+            self.audio.controls = false;
+            self.audio.autoplay = false;
+            self.audio.loop = false;
+            self.audio.setAttribute('src',data.url);
+        });
     }
     catch(e) {
         alert('Web Audio API is not supported in this browser');
@@ -21,44 +25,38 @@ Player.init = function(){
     }
 };
 
-Player.loadFile = function loadFile() {
+Player.play = function(callback){
     var self = this;
-    var req = new XMLHttpRequest();
-    req.open('GET','http://www.bornemark.se/bb/mp3_demos/PoA_Sorlin_-_Stay_Up.mp3',true);
-    req.responseType = "arraybuffer";
-    req.onload = function() {
-        self.ctx.decodeAudioData(req.response, function(buffer) {
-            self.buf = buffer;
-        });
-    };
-    req.send();
+    self.audio.play();
+    self.playing = true;
+    typeof callback === 'function' && callback();
 };
 
-Player.play = function(callback){
+Player.pause = function(callback){
+    var self = this;
+    self.audio.pause();
+    self.playing = false;
+    typeof callback === 'function' && callback();
+};
+
+Player.load = function(callback){
+    var self = this;
     Streamer.getRandomSong(data => {
-        this.song = data;
-        this.playing = true;
+        self.song = data;
+        self.audio.setAttribute('src',data.url);
         typeof callback === 'function' && callback(data);
     });
 };
 
-Player.pause = function(callback){
-    this.playing = false;
-    typeof callback === 'function' && callback(this.song);
-};
-
 Player.toggle = function(onPlay, onPause, onToggle){
-    if(!this.playing){ //Play
-        Streamer.getRandomSong(data => {
-            this.song = data;
-            this.playing = true;
-            typeof onPlay === 'function' && onPlay(data);
-        });
+    var self = this;
+    if(!self.playing){ //Play
+        self.play(onPlay);
+        typeof onToggle === 'function' && onToggle();
     } else {            //Pause
-        typeof onPause === 'function' && onPause();
+        self.pause(onPause);
+        typeof onToggle === 'function' && onToggle();
     }
-    this.playing = !this.playing;
-    typeof onToggle === 'function' && onToggle();
 };
 
 Player.setVolume = function(volume, callback){

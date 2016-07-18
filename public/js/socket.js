@@ -1,19 +1,21 @@
 var socket = io();
 
+var Streamer = {};
+
+Streamer.getRandomSong = function(callback = ()=>{}){
+    this._onRandomSongReceived = callback;
+    socket.emit('getRandomSong');
+};
+
 socket.on('syn', function(data) {
     socket.emit('ack', {data: 'connection from web', id: data.id});
 });
 socket.on('error', console.error.bind(console));
 socket.on('message', console.log.bind(console));
 
-var  Streamer = {};
+socket.on('randomSong', function(data) {
+    console.log('got random song!' , data);
+    typeof Streamer._onRandomSongReceived === 'function' && Streamer._onRandomSongReceived(data);
+});
 
-Streamer.getRandomSong = function(callback){
-    var self = this;
-    self._onGetRandomSong = callback || function(){};
-    socket.on('randomSong', function(data) {
-        self._onGetRandomSong(data);
-    });
-    socket.emit('getRandomSong');
-};
 
