@@ -54,7 +54,7 @@ database.findSongs = function(name, tags){
 var initSongs = function(songs) {
     songs.clear();
     songs.insert(new Song("Noisia - Dustup", "https://github.com/minajevs/dnb-player/raw/master/Noisia_amp_The_Upbeats-Dust_Up.mp3"));
-    songs.insert(new Song("KLOÉ - BAD TASTE PODCAST #019 [JULY 2016]", "http://mixes.bassblog.pro/Bad_Taste_Podcast_019_-_Kloe.mp3"));
+    songs.insert(new Song("Evolcast 009", "https://onedrive.live.com/download?cid=25E5200581EF8F85&resid=25E5200581EF8F85%216546&authkey=AKgE2C_bwRbxckE"));
     db.saveDatabase();
 };
 
