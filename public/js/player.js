@@ -61,7 +61,7 @@ Player.toggle = function(onPlay, onPause, onToggle){
 
 Player.setVolume = function(volume, callback){
     this.volume = volume;
-
+    this.audio.volume = this.volume/5;
     typeof callback === 'function' && callback();
 };
 

@@ -7,11 +7,10 @@ module.exports = function (server) {
     database.init();
 
     function sendRandomSong(id){
-        console.log('send random song called');
         if(database.ready){
             id = id || utils.getRandomInt(0, database.songs.count()-1);
             var send = database.songs.data[id];
-            console.log('Sending ' + send.name);
+            utils.log('Sending ' + send.name);
             streamer.emit('randomSong', send);
         }
     }
@@ -21,7 +20,7 @@ module.exports = function (server) {
       socket.on('ack', console.log);
 
       socket.on('getRandomSong', () => {
-          console.log('getrandomsong received');
+          utils.log('getrandomsong received');
           sendRandomSong();
       });
     });

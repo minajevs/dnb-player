@@ -8,7 +8,6 @@ var utils = require('./bin/utils');
 
 var routes = require('./routes/index');
 
-utils.log('app = express');
 var app = express();
 
 // view engine setup
@@ -56,5 +55,5 @@ app.use(function(err, req, res, next) {
   });
 });
 
-
+utils.log('App initialised!');
 module.exports = app;

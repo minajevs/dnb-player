@@ -1,4 +1,5 @@
 var Song = require('./song');
+var utils = require('./utils');
 var loki = require('lokijs');
 db = new loki('data/data.json');
 
@@ -58,5 +59,6 @@ var initSongs = function(songs) {
     db.saveDatabase();
 };
 
+utils.log('Database initialised!');
 module.exports = database;
 

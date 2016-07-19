@@ -3,8 +3,8 @@
 /**
  * Module dependencies.
  */
-
 var app = require('../app');
+var utils = require('./utils');
 var debug = require('debug')('dnb-player:server');
 var http = require('http');
 var config = require('../config/config');
