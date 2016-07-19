@@ -14,19 +14,23 @@ block content
               label #{currentSong.name}
             else
               label Not Playing
-          .ui.buttons
-            button.ui.button.active.positive#playPause
-              i.play.icon
-              |     Play
-            button.ui.right.blue.icon.button#nextSong
-              i.angle.double.right.icon
-            //button.ui.icon.button#mute
-              i.volume.up.icon
-            .ui.icon.top.left.pointing.dropdown.button#dropdownBtn
-              i.volume.up.icon#dropdownIcon
-              .menu
-                .item
-                  input(type='range', min='0', max='5', class='ui field', id='volumeBar')
+          .field
+            .progress#progress
+              .load#pLoad
+              .play#pPlay
+            .ui.buttons
+              button.ui.button.active.positive#playPause
+                i.play.icon
+                |     Play
+              button.ui.right.blue.icon.button#nextSong
+                i.angle.double.right.icon
+              //button.ui.icon.button#mute
+                i.volume.up.icon
+              .ui.icon.dropdown.button#dropdownBtn
+                i.volume.up.icon#dropdownIcon
+                .menu
+                  .item
+                    input(type='range', min='0', max='5', class='ui field', id='volumeBar')
 
 
       //.ui.message#time

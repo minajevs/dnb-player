@@ -9,6 +9,14 @@ var Player = {
     ctx: {},            //Buffer
     buf: {},            //Context
     analyser: {},       //Analyser
+    loop: '',           //LOOP
+    onLoop: function(){}
+};
+
+Player.skipTo = function(percent){
+    var self = this;
+    var delta = self.audio.duration / 100;
+    self.audio.currentTime = percent*delta;
 };
 
 Player.init = function(){
@@ -17,10 +25,9 @@ Player.init = function(){
         Streamer.getRandomSong(data => {
             self.song = data;
             self.audio = generateAudio(data.url);
-            //self.audio.controls = false;
-            //self.audio.autoplay = false;
-            //self.audio.loop = false;
-            //self.audio.setAttribute('src',data.url);
+            self.loop = setInterval(function(){
+                self.onLoop(self.audio);
+            },500);
         });
     }
     catch(e) {

@@ -2,9 +2,15 @@ var ppBtn = $('#playPause');
 var songName = $('#songTitle');
 var nextSong = $('#nextSong');
 
+var progress = $('#progress');
+var pLoad = $('#pLoad');
+var pPlay = $('#pPlay');
+
 var volumeBar = $('#volumeBar');
 var dropdownBtn = $('#dropdownBtn');
 var dropdownIcon = $('#dropdownIcon');
+
+
 
 var prevVolume;
 
@@ -14,6 +20,13 @@ $(document).ready(() => {
         action: 'nothing',
         onChange: function(){}
     });
+
+    progress.on('click', (e) => {
+        var cords = e.pageX - $(progress).offset().left;
+        var percent = (cords/progress.width())*100;
+        Player.skipTo(percent);
+    });
+
     dropdownBtn.on('click', (e) => {
         if(e.target.id != 'dropdownBtn' &&      //Prevent dropdown cliks
             e.target.id != 'dropdownIcon'){     //Allow only button clicks
@@ -68,10 +81,22 @@ $(document).ready(() => {
             Player.play(onPlay);
         });
     });
-
+    Player.onLoop = onLoop;
     Player.init();
 });
 
+
+function onLoop(audio){
+    var buffered = 0,
+        played = 0;
+    if(audio.duration && audio.buffered.end(0)){
+        buffered = (audio.buffered.end(0)/audio.duration) * 100;
+        played = (audio.currentTime/audio.duration) * 100;
+    }
+    pLoad.width(buffered + '%');
+    pPlay.width(played + '%');
+    //console.log(buffered + '% buf', played +  '% play');
+}
 
 function onPlay(){
     songName.text(Player.song.name);
