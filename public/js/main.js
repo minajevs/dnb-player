@@ -63,7 +63,6 @@ $(document).ready(() => {
     });
 
     nextSong.on('click', () => {
-        Player.pause();
         Player.load(function(data){
             console.log('loaded');
             Player.play(onPlay);

@@ -1,6 +1,10 @@
 var Player = {
     song: {},
     playing: false,
+    loading: false,
+    playingPromise: {
+        then: function(cb){cb();}
+    },
     volume: 5,
     ctx: {},            //Buffer
     buf: {},            //Context
@@ -12,11 +16,11 @@ Player.init = function(){
     try {
         Streamer.getRandomSong(data => {
             self.song = data;
-            self.audio = new Audio();
-            self.audio.controls = false;
-            self.audio.autoplay = false;
-            self.audio.loop = false;
-            self.audio.setAttribute('src',data.url);
+            self.audio = generateAudio(data.url);
+            //self.audio.controls = false;
+            //self.audio.autoplay = false;
+            //self.audio.loop = false;
+            //self.audio.setAttribute('src',data.url);
         });
     }
     catch(e) {
@@ -27,9 +31,12 @@ Player.init = function(){
 
 Player.play = function(callback){
     var self = this;
-    self.audio.play();
-    self.playing = true;
-    typeof callback === 'function' && callback();
+    self.playingPromise = self.audio.play();
+    self.playingPromise.then(() => {
+        self.playing = true;
+        self.loading = false;
+        typeof callback === 'function' && callback();
+    });
 };
 
 Player.pause = function(callback){
@@ -41,10 +48,14 @@ Player.pause = function(callback){
 
 Player.load = function(callback){
     var self = this;
-    Streamer.getRandomSong(data => {
-        self.song = data;
-        self.audio.setAttribute('src',data.url);
-        typeof callback === 'function' && callback(data);
+    if(self.loading) return; //exclude multiple requests
+    self.loading = true;
+    self.playingPromise.then(() => {
+        Streamer.getRandomSong(data => {
+            self.song = data;
+            self.audio.setAttribute('src',data.url);
+            self.play(callback);
+        });
     });
 };
 
@@ -64,6 +75,15 @@ Player.setVolume = function(volume, callback){
     this.audio.volume = this.volume/5;
     typeof callback === 'function' && callback();
 };
+
+function generateAudio(src){
+    var audio = new Audio();
+    audio.controls = false;
+    audio.autoplay = false;
+    audio.loop = false;
+    audio.setAttribute('src',src);
+    return audio;
+}
 
 
 

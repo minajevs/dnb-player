@@ -14,7 +14,6 @@ socket.on('error', console.error.bind(console));
 socket.on('message', console.log.bind(console));
 
 socket.on('randomSong', function(data) {
-    console.log('got random song!' , data);
     typeof Streamer._onRandomSongReceived === 'function' && Streamer._onRandomSongReceived(data);
 });
 
