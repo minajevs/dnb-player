@@ -13,11 +13,16 @@ var dropdownIcon = $('#dropdownIcon');
 
 var wavesurfer = WaveSurfer.create({
     container: '#waveform',
-    waveColor: 'violet',
-    progressColor: 'purple'
+    waveColor: '#A8DBA8',
+    progressColor: '#3B8686',
+    barWidth: 3,
+    height: 50,
 });
 
-wavesurfer.load('http://localhost:8080/http://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3');
+wavesurfer.load('http://localhost:8080/http://api.soundcloud.com/tracks/269891192/stream?client_id=c2a1e9215e0e6f4dc03afe023ee9e212');
+wavesurfer.on('ready', function () {
+    wavesurfer.play();
+});
 
 
 
