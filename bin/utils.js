@@ -16,7 +16,7 @@ utils.getGuid = function(){
 
 utils.log = function(){
     if(config.debug === true){
-        for(let i = 0; i < arguments.length; i++){
+        for(var i = 0; i < arguments.length; i++){
             var arg = arguments[i];
             var orig = Error.prepareStackTrace;
             Error.prepareStackTrace = function(_, stack) {
