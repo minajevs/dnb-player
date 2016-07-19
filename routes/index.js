@@ -1,4 +1,5 @@
 var express = require('express');
+var utils = require('../bin/utils');
 var router = express.Router();
 
 /* GET home page. */

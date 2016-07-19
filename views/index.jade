@@ -9,6 +9,7 @@ block content
           | DnB Player
       .ui.large.form
         .ui.stacked.segment
+          .waveform#waveform
           .field#songTitle
             if currentSong
               label #{currentSong.name}
@@ -37,6 +38,7 @@ block content
       //  | New to us?
 block scripts
   script(src="https://cdn.socket.io/socket.io-1.4.5.js")
+  script(src="//cdnjs.cloudflare.com/ajax/libs/wavesurfer.js/1.0.52/wavesurfer.min.js")
   script(src="/js/socket.js")
   script(src="/js/player.js")
   script(src="/js/main.js")

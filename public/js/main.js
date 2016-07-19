@@ -11,6 +11,15 @@ var dropdownBtn = $('#dropdownBtn');
 var dropdownIcon = $('#dropdownIcon');
 
 
+var wavesurfer = WaveSurfer.create({
+    container: '#waveform',
+    waveColor: 'violet',
+    progressColor: 'purple'
+});
+
+wavesurfer.load('http://localhost:8080/http://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3');
+
+
 
 var prevVolume;
 
@@ -90,7 +99,7 @@ function onLoop(audio){
     var buffered = 0,
         played = 0;
     if(audio.duration && audio.buffered.end(0)){
-        buffered = (audio.buffered.end(0)/audio.duration) * 100;
+        buffered = (audio.buffered.end(audio.buffered.length-1)/audio.duration) * 100;
         played = (audio.currentTime/audio.duration) * 100;
     }
     pLoad.width(buffered + '%');

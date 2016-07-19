@@ -54,8 +54,8 @@ database.findSongs = function(name, tags){
 
 var initSongs = function(songs) {
     songs.clear();
-    songs.insert(new Song("Noisia - Dustup", "https://github.com/minajevs/dnb-player/raw/master/Noisia_amp_The_Upbeats-Dust_Up.mp3"));
-    songs.insert(new Song("Evolcast 009", "https://onedrive.live.com/download?cid=25E5200581EF8F85&resid=25E5200581EF8F85%216546&authkey=AKgE2C_bwRbxckE"));
+    songs.insert(new Song("Noisia - Dustup", "http://localhost:8080/https://github.com/minajevs/dnb-player/raw/master/Noisia_amp_The_Upbeats-Dust_Up.mp3"));
+    songs.insert(new Song("Evolcast 009", "http://localhost:8080/https://onedrive.live.com/download?cid=25E5200581EF8F85&resid=25E5200581EF8F85%216546&authkey=AKgE2C_bwRbxckE"));
     db.saveDatabase();
 };
 
