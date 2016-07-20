@@ -6,7 +6,8 @@ module.exports = function (server) {
     var streamer = require('socket.io').listen(server);
     database.init();
 
-    function sendRandomSong(excludeIds = []){
+    function sendRandomSong(excludeIds){
+        excludeIds = excludeIds || [];
         if(database.ready){
             utils.log(excludeIds);
             var song;
