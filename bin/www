@@ -9,18 +9,6 @@ var debug = require('debug')('dnb-player:server');
 var http = require('http');
 var config = require('../config/config');
 
-var corshost = process.env.PORT ? '0.0.0.0' : '127.0.0.1';
-var corsport = process.env.PORT || 8080;
-
-var cors_proxy = require('cors-anywhere');
-cors_proxy.createServer({
-    originWhitelist: [],
-    requireHeader: ['origin', 'x-requested-with'],
-    removeHeaders: ['cookie', 'cookie2']
-}).listen(corsport, corshost, function() {
-    utils.log('Running CORS Anywhere on ' + corshost + ':' + corsport);
-});
-
 /**
  * Get port from environment and store in Express.
  */

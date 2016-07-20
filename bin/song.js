@@ -9,11 +9,18 @@ var utils = require('./utils');
 //    }
 //}
 
-function Song(name, url, tags){
-    this.name = name;
-    this.url = url;
+function Song(id, title, description, tags, artwork, url){
+    this.id = id;
+    this.title = title;
+    this.description = description;
     this.tags = tags;
-    this.id = utils.getGuid();
+    this.artwork = artwork;
+    this.url = url;
 }
+
+Song.mapFromJSON = function(json){
+    return new Song(json.id, json.title, json.description, json.tag_list, json.artwork_url,
+        'http://localhost:3000/tracks?id='+json.id);
+};
 
 module.exports = Song;

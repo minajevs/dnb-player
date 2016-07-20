@@ -9,16 +9,17 @@ block content
           | DnB Player
       .ui.large.form
         .ui.stacked.segment
-          .waveform#waveform
           .field#songTitle
             if currentSong
               label #{currentSong.name}
             else
               label Not Playing
           .field
-            .progress#progress
-              .load#pLoad
-              .play#pPlay
+            .waveform#waveform
+            .ui.progress#progress
+              .bar
+                .progress
+          .field
             .ui.buttons
               button.ui.button.active.positive#playPause
                 i.play.icon
@@ -31,7 +32,7 @@ block content
                 i.volume.up.icon#dropdownIcon
                 .menu
                   .item
-                    input(type='range', min='0', max='5', class='ui field', id='volumeBar')
+                    input(type='range', min='0', max='10', value="10" class='ui field', id='volumeBar')
 
 
       //.ui.message#time
@@ -39,6 +40,7 @@ block content
 block scripts
   script(src="https://cdn.socket.io/socket.io-1.4.5.js")
   script(src="//cdnjs.cloudflare.com/ajax/libs/wavesurfer.js/1.0.52/wavesurfer.min.js")
+  script(src="/js/progress.min.js")
   script(src="/js/socket.js")
   script(src="/js/player.js")
   script(src="/js/main.js")

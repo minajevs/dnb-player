@@ -3,28 +3,14 @@ var songName = $('#songTitle');
 var nextSong = $('#nextSong');
 
 var progress = $('#progress');
-var pLoad = $('#pLoad');
-var pPlay = $('#pPlay');
 
 var volumeBar = $('#volumeBar');
 var dropdownBtn = $('#dropdownBtn');
 var dropdownIcon = $('#dropdownIcon');
 
+var waveform = $('#waveform');
 
-var wavesurfer = WaveSurfer.create({
-    container: '#waveform',
-    waveColor: '#A8DBA8',
-    progressColor: '#3B8686',
-    barWidth: 3,
-    height: 50,
-});
-
-wavesurfer.load('http://localhost:8080/http://api.soundcloud.com/tracks/269891192/stream?client_id=c2a1e9215e0e6f4dc03afe023ee9e212');
-wavesurfer.on('ready', function () {
-    wavesurfer.play();
-});
-
-
+var maxVolume = 10;
 
 var prevVolume;
 
@@ -35,10 +21,8 @@ $(document).ready(() => {
         onChange: function(){}
     });
 
-    progress.on('click', (e) => {
-        var cords = e.pageX - $(progress).offset().left;
-        var percent = (cords/progress.width())*100;
-        Player.skipTo(percent);
+    progress.progress({
+        percent: 0
     });
 
     dropdownBtn.on('click', (e) => {
@@ -56,7 +40,7 @@ $(document).ready(() => {
             Player.setVolume(prevVolume);
             volumeBar.val(prevVolume);
             dropdownIcon.removeClass('off');
-            prevVolume === 5 ? dropdownIcon.addClass('up') : dropdownIcon.addClass('down');
+            prevVolume === maxVolume ? dropdownIcon.addClass('up') : dropdownIcon.addClass('down');
         }
     });
 
@@ -67,21 +51,18 @@ $(document).ready(() => {
 
     volumeBar.on('input', () => {
         var self = volumeBar;
-        Player.setVolume(self.val());
-        if(self.val() == 5){
-            console.log('up');
+        Player.setVolume(self.val(), maxVolume);
+        if(self.val() > 7){ //maxVolume !!!!!!!!
             dropdownIcon.removeClass('up');
             dropdownIcon.removeClass('down');
             dropdownIcon.removeClass('off');
             dropdownIcon.addClass('up');
         } else if (self.val() > 0){
-            console.log('down');
             dropdownIcon.removeClass('up');
             dropdownIcon.removeClass('down');
             dropdownIcon.removeClass('off');
             dropdownIcon.addClass('down')
         } else {
-            console.log('off');
             dropdownIcon.removeClass('up');
             dropdownIcon.removeClass('down');
             dropdownIcon.removeClass('off');
@@ -91,12 +72,17 @@ $(document).ready(() => {
 
     nextSong.on('click', () => {
         Player.load(function(data){
-            console.log('loaded');
             Player.play(onPlay);
         });
     });
-    Player.onLoop = onLoop;
-    Player.init();
+    Player.init(
+        '#waveform',
+        onLoading,
+        onReady,
+        () => {     //callback
+            Player.setVolume(maxVolume, maxVolume);
+            Player.play()
+        });
 });
 
 
@@ -112,8 +98,20 @@ function onLoop(audio){
     //console.log(buffered + '% buf', played +  '% play');
 }
 
+function onLoading(e){
+    progress.show();
+    progress.progress({
+        percent: e
+    });
+}
+
+function onReady(){
+    progress.hide();
+    Player.play(onPlay);
+}
+
 function onPlay(){
-    songName.text(Player.song.name);
+    songName.text(Player.song.title);
     ppBtn.text('Stop');
     ppBtn.prepend('<i class="stop icon"></i>');
     ppBtn.addClass('negative');

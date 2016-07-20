@@ -2,33 +2,30 @@ var Player = {
     song: {},
     playing: false,
     loading: false,
-    playingPromise: {
-        then: function(cb){cb();}
-    },
     volume: 5,
     ctx: {},            //Buffer
     buf: {},            //Context
     analyser: {},       //Analyser
-    loop: '',           //LOOP
-    onLoop: function(){}
+    onLoading: {},      //Loading
+    onReady: {}         //onReady
 };
 
-Player.skipTo = function(percent){
+Player.init = function(container, onLoading, onReady, callback){
     var self = this;
-    var delta = self.audio.duration / 100;
-    self.audio.currentTime = percent*delta;
-};
+    self.audio = WaveSurfer.create({
+        container: container,
+        waveColor: '#829090',
+        progressColor: '#008A85',
+        //backend: 'MediaElement',
 
-Player.init = function(){
-    var self = this;
+        barWidth: 2,
+        height: 50,
+    });
     try {
-        Streamer.getRandomSong(data => {
-            self.song = data;
-            self.audio = generateAudio(data.url);
-            self.loop = setInterval(function(){
-                self.onLoop(self.audio);
-            },500);
-        });
+        self.onLoading = onLoading;
+        self.onReady = onReady;
+        self.audio.on('loading', self.onLoading);
+        self.load();
     }
     catch(e) {
         alert('Web Audio API is not supported in this browser');
@@ -38,30 +35,33 @@ Player.init = function(){
 
 Player.play = function(callback){
     var self = this;
-    self.playingPromise = self.audio.play();
-    self.playingPromise.then(() => {
+    if(!self.loading && !self.playing) {
+        self.audio.play();
         self.playing = true;
-        self.loading = false;
-        typeof callback === 'function' && callback();
-    });
+    }
+    typeof callback === 'function' && callback();
 };
 
 Player.pause = function(callback){
     var self = this;
-    self.audio.pause();
-    self.playing = false;
+    if(self.playing && !self.loading){
+        self.audio.pause();
+        self.playing = false;
+    }
     typeof callback === 'function' && callback();
 };
 
 Player.load = function(callback){
     var self = this;
-    if(self.loading) return; //exclude multiple requests
-    self.loading = true;
-    self.playingPromise.then(() => {
-        Streamer.getRandomSong(data => {
-            self.song = data;
-            self.audio.setAttribute('src',data.url);
-            self.play(callback);
+    Streamer.getRandomSong(data => {
+        self.song = data;
+        self.pause();
+        self.loading = true;
+        self.audio.load(self.song.url);
+        self.audio.on('ready', function () {
+            self.loading = false;
+            self.onReady();
+            typeof callback === 'function' && callback();
         });
     });
 };
@@ -77,20 +77,12 @@ Player.toggle = function(onPlay, onPause, onToggle){
     }
 };
 
-Player.setVolume = function(volume, callback){
-    this.volume = volume;
-    this.audio.volume = this.volume/5;
+Player.setVolume = function(volume, maxVolume,  callback){
+    this.volume = volume/maxVolume;
+    this.audio.setVolume(this.volume);
     typeof callback === 'function' && callback();
 };
 
-function generateAudio(src){
-    var audio = new Audio();
-    audio.controls = false;
-    audio.autoplay = false;
-    audio.loop = false;
-    audio.setAttribute('src',src);
-    return audio;
-}
 
 
 
