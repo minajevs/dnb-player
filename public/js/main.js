@@ -3,6 +3,7 @@ var songName = $('#songTitle');
 var nextSong = $('#nextSong');
 
 var progress = $('#progress');
+var waveformWrapper = $('#waveformWrapper');
 
 var volumeBar = $('#volumeBar');
 var dropdownBtn = $('#dropdownBtn');
@@ -71,14 +72,13 @@ $(document).ready(() => {
     });
 
     nextSong.on('click', () => {
-        Player.load(function(data){
-            Player.play(onPlay);
-        });
+        Player.next();
     });
     Player.init(
         '#waveform',
         onLoading,
         onReady,
+        onReceived,
         () => {     //callback
             Player.setVolume(maxVolume, maxVolume);
             Player.play()
@@ -108,6 +108,11 @@ function onLoading(e){
 function onReady(){
     progress.hide();
     Player.play(onPlay);
+}
+
+function onReceived(){
+    console.log('onReceived');
+    songName.text(Player.playlist.currentSong.title);
 }
 
 function onPlay(){

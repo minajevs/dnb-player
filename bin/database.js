@@ -55,8 +55,8 @@ database.findSongs = function(name, tags){
 var initSongs = function(songs) {
     songs.clear();
     songs.insert(new Song('269891192', "Miss Bass & Rusty K - Palm Shot (Edit)", "A new collaboration with Miss Baas (Steisha)!!!", "\"Drum & Bass\" \"Rusty K\" \"Miss Baas\" 2016 Vocal Reggae", "https://i1.sndcdn.com/artworks-000168163663-30oe8g-large.jpg",'http://localhost:3000/tracks?id=269891192'));
-    //songs.insert(new Song("Noisia - Dustup", "http://localhost:8080/https://github.com/minajevs/dnb-player/raw/master/Noisia_amp_The_Upbeats-Dust_Up.mp3"));
-    //songs.insert(new Song("Evolcast 009", "http://localhost:8080/https://onedrive.live.com/download?cid=25E5200581EF8F85&resid=25E5200581EF8F85%216546&authkey=AKgE2C_bwRbxckE"));
+    songs.insert(new Song('208234490', "The Pixies - Where Is My Mind (Rusty K Bootleg)", "My cover version of The Pixies - Where Is My Mind that full of sun and love", "Bootleg Where Is My Mind 2015 Drum&amp;Bass Rusty Neurofunk Summer Cover Free Download", "https://i1.sndcdn.com/artworks-000118773678-sshxqh-large.jpg",'http://localhost:3000/tracks?id=208234490'));
+    songs.insert(new Song('215392816', "Rusty K - End War", "", "", "https://i1.sndcdn.com/artworks-000123707155-qy5r4k-large.jpg",'http://localhost:3000/tracks?id=215392816'));
     db.saveDatabase();
 };
 
