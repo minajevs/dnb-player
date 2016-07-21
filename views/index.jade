@@ -1,7 +1,7 @@
 extends layout
 
 block content
-  .ui.middle.aligned.center.aligned.grid
+  .ui.middle.aligned.center.aligned.grid(style="display:-webkit-box")
     .column
       h2.ui.teal.image.header
         i.music.icon
@@ -33,6 +33,12 @@ block content
                 .menu
                   .item
                     input(type='range', min='0', max='10', value="10" class='ui field', id='volumeBar')
+      h3.ui.teal.header
+        .content Playlist
+      .ui.large.form
+        .ui.stacked.segment#playlist
+          //include playlist
+
 
 
       //.ui.message#time

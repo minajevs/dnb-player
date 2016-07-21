@@ -1,7 +1,7 @@
 var config = {};
 
 
-config.debug = false;
+config.debug = true;
 config.web = {};
 config.soundcloud = {};
 

@@ -9,6 +9,7 @@ var dropdownBtn = $('#dropdownBtn');
 var dropdownIcon = $('#dropdownIcon');
 
 var waveform = $('#waveform');
+var playlist = $('#playlist');
 
 var maxVolume = 10;
 
@@ -73,11 +74,14 @@ $(document).ready(() => {
     nextSong.on('click', () => {
         Player.next();
     });
+
+
     Player.init(
         '#waveform',
         onLoading,
         onReady,
         onReceived,
+        onPlaylistUpdate,
         () => {     //callback
             Player.setVolume(maxVolume, maxVolume);
             Player.play()
@@ -89,6 +93,18 @@ function onLoading(e){
     progress.progress({
         percent: e
     });
+}
+
+function onPlaylistUpdate(){
+    $.get({
+        url: '/playlist',
+        data: {
+            songs: Playlist.songs.map(function(el) {return el.id}).slice(1)
+        },
+        success: function(data){
+            playlist.html(data);
+        }
+    })
 }
 
 function onReady(){

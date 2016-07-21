@@ -1,6 +1,5 @@
 var Player = {
     song: {},
-    audioPre: {},
     audio: {},
     playing: false,
     loading: false,
@@ -24,7 +23,7 @@ var Player = {
     }
 };
 
-Player.init = function(container, onLoading, onReady, onReceived, callback){
+Player.init = function(container, onLoading, onReady, onReceived, onPlaylistUpdate, callback){
     var self = this;
     self.audio = WaveSurfer.create({
         container: container,
@@ -35,7 +34,6 @@ Player.init = function(container, onLoading, onReady, onReceived, callback){
         barWidth: 2,
         height: 50,
     });
-    self.audioPre = WaveSurfer.create();
 
     try {
         self.onLoading = onLoading;
@@ -43,7 +41,7 @@ Player.init = function(container, onLoading, onReady, onReceived, callback){
         self.onReceived = onReceived;
         self.audio.on('loading', self.onLoading);
         self.audio.on('finish', () => {self.next()});
-        self.playlist.init(() => {
+        self.playlist.init(onPlaylistUpdate, () => {
             self.load('', callback);
         });
     }

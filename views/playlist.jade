@@ -1,0 +1,12 @@
+.ui.items
+    each song in songs
+        .item
+            .ui.small.image
+                img(src=song.artwork)
+            .content
+                .header= song.title
+                .meta
+                    span.tags #:##
+                .description
+                    p= song.description
+        hr

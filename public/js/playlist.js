@@ -1,15 +1,18 @@
 var Playlist = {
     songs: [],
     currentSong: {},
+    onUpdate: {},
 
     size: 10
 };
 
-Playlist.init = function(callback){
+Playlist.init = function(onUpdate, callback){
     var self = this;
+    self.onUpdate = onUpdate;
     Streamer.getPlaylist(self.size, data => {
         self.songs = data;
         self.currentSong = self.songs[0];
+        self.onUpdate();
         typeof callback === 'function' && callback();
     });
 };
@@ -21,6 +24,7 @@ Playlist.shift = function(callback){
     Streamer.getRandomSong(excludeIds, data => {
         self.songs.push(data);
         self.currentSong = this.songs[0];
+        self.onUpdate();
     });
     typeof callback === 'function' && callback();
 };
