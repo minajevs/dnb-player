@@ -2,6 +2,8 @@ var ppBtn = $('#playPause');
 var songName = $('#songTitle');
 var nextSong = $('#nextSong');
 
+var test = $('#test');
+
 var progress = $('#progress');
 var waveformWrapper = $('#waveformWrapper');
 
@@ -95,7 +97,6 @@ function onLoop(audio){
     }
     pLoad.width(buffered + '%');
     pPlay.width(played + '%');
-    //console.log(buffered + '% buf', played +  '% play');
 }
 
 function onLoading(e){

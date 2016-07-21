@@ -17,10 +17,10 @@ utils.getGuid = function(){
 utils.takeRandom = function(arr, count){
     if(count >= arr.length) return arr;
     var indexes = [],
-        max = arr.length;
-    while(indexes.length != count){
+        max = arr.length-1;
+    while(indexes.length != count){;
         var num = utils.getRandomInt(0, max);
-        if(indexes.indexOf(num) != -1)
+        if(indexes.indexOf(num) == -1)
             indexes.push(num);
     }
     var res = indexes.map((index) => {return arr[index]});
