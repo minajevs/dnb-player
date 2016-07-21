@@ -1,5 +1,7 @@
 var Player = {
     song: {},
+    audioPre: {},
+    audio: {},
     playing: false,
     loading: false,
     volume: 5,
@@ -11,7 +13,15 @@ var Player = {
     analyser: {},       //Analyser
     onLoading: {},      //Loading
     onReady: {},         //onReady
-    onReceived: {}         //onReady
+    onReceived: {},         //onReady
+    onFinish: {},
+    onPlaying: {},
+    _onPlaying: function(){
+        if(this.song.duration-this.audio.getCurrentTime() < 5){
+
+        }
+        this.onPlaying();
+    }
 };
 
 Player.init = function(container, onLoading, onReady, onReceived, callback){
@@ -25,11 +35,14 @@ Player.init = function(container, onLoading, onReady, onReceived, callback){
         barWidth: 2,
         height: 50,
     });
+    self.audioPre = WaveSurfer.create();
+
     try {
         self.onLoading = onLoading;
         self.onReady = onReady;
         self.onReceived = onReceived;
         self.audio.on('loading', self.onLoading);
+        self.audio.on('finish', () => {self.next()});
         self.playlist.init(() => {
             self.load('', callback);
         });
@@ -66,6 +79,7 @@ Player.load = function(song, callback){
     self.audio.load(self.song.url);
     self.audio.on('ready', function () {
         self.loading = false;
+        self.song.duration = self.audio.getDuration();
         self.onReady();
         typeof callback === 'function' && callback()
     });
@@ -90,13 +104,16 @@ Player.setVolume = function(volume, maxVolume,  callback){
 
 Player.next = function(callback){
     var self = this;
-    self.playlist.shift(() => {
-        self.pause();
-        self.onReceived();
-        self.load(self.playlist.currentSong, () => {
-            typeof callback === 'function' && callback();
-        });
+    self.playlist.shift();
+    self.pause();
+    self.onReceived();
+    self.load(self.playlist.currentSong, () => {
+        typeof callback === 'function' && callback();
     });
+};
+
+Player.switchToPreloaded = function(){
+
 };
 
 

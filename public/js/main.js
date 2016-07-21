@@ -1,9 +1,6 @@
 var ppBtn = $('#playPause');
 var songName = $('#songTitle');
 var nextSong = $('#nextSong');
-
-var test = $('#test');
-
 var progress = $('#progress');
 var waveformWrapper = $('#waveformWrapper');
 
@@ -87,18 +84,6 @@ $(document).ready(() => {
         });
 });
 
-
-function onLoop(audio){
-    var buffered = 0,
-        played = 0;
-    if(audio.duration && audio.buffered.end(0)){
-        buffered = (audio.buffered.end(audio.buffered.length-1)/audio.duration) * 100;
-        played = (audio.currentTime/audio.duration) * 100;
-    }
-    pLoad.width(buffered + '%');
-    pPlay.width(played + '%');
-}
-
 function onLoading(e){
     progress.show();
     progress.progress({
@@ -112,7 +97,6 @@ function onReady(){
 }
 
 function onReceived(){
-    console.log('onReceived');
     songName.text(Player.playlist.currentSong.title);
 }
 

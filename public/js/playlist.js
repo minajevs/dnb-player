@@ -17,12 +17,10 @@ Playlist.init = function(callback){
 Playlist.shift = function(callback){
     var self = this;
     var excludeIds = self.songs.map((el) => {return el.id});
-    console.log(excludeIds);
     self.songs.shift();
     Streamer.getRandomSong(excludeIds, data => {
         self.songs.push(data);
         self.currentSong = this.songs[0];
-        console.log(self.songs);
-        typeof callback === 'function' && callback();
     });
+    typeof callback === 'function' && callback();
 };
