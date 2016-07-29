@@ -1,5 +1,6 @@
 var app = require('../app');
 var config = require('../config/config');
+console = require('better-console');
 
 var utils = {};
 

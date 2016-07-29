@@ -31,24 +31,20 @@ database.init = function(){
 database.addSong = function(song){
     if(!(song instanceof Song)) return; //TODO: Error catching (db not ready etc)
     this.songs.insert(song);
-    db.saveDatabase();
 };
 
 database.updateSong = function(song){
     this.songs.update(song);
-    db.saveDatabase();
 };
 
 database.deleteSong = function(song){
     this.songs.remove(song);
-    db.saveDatabase();
 };
 
 database.deleteSongById = function(id){
     var song = this.songs.findOne({id: id});
     utils.log(song.title);
     this.songs.remove(song);
-    db.saveDatabase();
 };
 
 database.getAllSongs = function(){

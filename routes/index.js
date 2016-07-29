@@ -28,11 +28,14 @@ router.get('/api', function(req, res, next){
 
 router.get('/playlist', function(req, res, next){
     var songIds = req.query.songs;
+    utils.log(songIds.slice());
     var songs = songIds.map(function(id){
-        return database.songs.findOne({id: id});
+        var s = database.songs.findOne({id: id});
+        utils.log(s);
+        return s;
     });
-    res.json(songs);
-    //res.render('playlist', {songs: songs});
+    //res.json(songs);
+    res.render('playlist', {songs: songs});
 });
 
 router.get('/add', checkAuth, function(req, res){
@@ -72,6 +75,7 @@ router.post('/login', function (req, res) {
 router.get('/allTracks', function(req, res){
     utils.log('get all!!!!!!');
     var songs = database.getAllSongs();
+    //res.json(songs);
     res.render('allTracks', {songs: songs});
 });
 

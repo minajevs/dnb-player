@@ -21,7 +21,7 @@ function Song(id, title, description, duration, tags, artwork, url){
 }
 
 Song.prototype.mapFromJSON = function(json){
-    this.id = json.id;
+    this.id = json.id.toString();
     this.title = json.title;
     this.description = json.description;
     this.duration = msToTime(json.duration);
