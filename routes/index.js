@@ -31,8 +31,8 @@ router.get('/playlist', function(req, res, next){
     var songs = songIds.map(function(id){
         return database.songs.findOne({id: id});
     });
-    //res.json(songs);
-    res.render('playlist', {songs: songs});
+    res.json(songs);
+    //res.render('playlist', {songs: songs});
 });
 
 router.get('/add', checkAuth, function(req, res){
@@ -61,8 +61,8 @@ router.post('/deleteTrack', checkAuth, function(req, res){
 
 router.post('/login', function (req, res) {
     var post = req.body;
-    if (post.user === '1' && post.password === '1') {
-        req.session.user_id = 'dexie';
+    if (post.user === config.login.user && post.password === config.login.pass) {
+        req.session.user_id = config.login.user;
         res.redirect('/add');
     } else {
         res.send('Bad user/pass');

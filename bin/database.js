@@ -18,7 +18,7 @@ database.init = function(){
             initSongs(songs);
         }
 
-        initSongs(songs);
+        if(config.debug == true) {initSongs(songs);}
 
         database.songs = songs;
         database.ready = true;
