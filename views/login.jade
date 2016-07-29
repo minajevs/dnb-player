@@ -1,0 +1,19 @@
+extends layout
+
+block content
+    .ui.middle.aligned.center.aligned.grid
+        .column
+            h2.ui.teal.image.header
+                .content
+                    | Admin Login
+            form.ui.large.form(action='login', method='post')
+                .ui.stacked.segment
+                    .field
+                        .ui.left.icon.input
+                            i.user.icon
+                            input(type='text', name='user', placeholder='Login')
+                    .field
+                        .ui.left.icon.input
+                            i.lock.icon
+                            input(type='password', name='password', placeholder='Password')
+                    input.ui.fluid.large.teal.submit.button(type='submit')

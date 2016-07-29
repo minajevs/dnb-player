@@ -1,0 +1,53 @@
+extends layout
+
+block content
+    h2.ui.teal.image.header
+        .content
+            | Add song to DB!
+    br
+    .ui.input.focus
+        input(type='text', id='id' placeholder='Id of the song')
+        input.ui.teal.submit.button(type='submit', value='search', id='add')
+    br
+    .ui.items#addedTrack
+    br
+    h4.ui.teal.header Tracks:
+    div#allTracks
+
+
+block scripts
+    script.
+        $(document).ready(function(){
+            refresh();
+            var addBtn = $('#add');
+            var searchID = $('#id');
+            var allTracks = $('#allTracks');
+            var addedTrack = $('#addedTrack');
+
+            addBtn.on('click', function () {
+                addSong(searchID.val(), refresh);
+            });
+        });
+
+        var addSong = function(id,callback){
+            $.post({
+                url: '/addTrack',
+                data: {
+                    id: id
+                },
+                success: function (data) {
+                    $('#addedTrack').html(data);
+                    callback();
+                }
+            })
+        }
+
+
+        var refresh = function(){
+            $.get({
+                url: '/allTracks',
+                success: function (data) {
+                    $('#allTracks').html(data);
+                }
+            })
+        }

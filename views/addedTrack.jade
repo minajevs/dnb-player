@@ -1,0 +1,13 @@
+.item
+    .ui.small.image
+        img(src=song.artwork)
+    .content
+        .header= song.title
+        .meta
+            span.duration= song.duration
+        .description
+            p= song.description
+        .extra
+            .ui.right.floated.primary.negative.button
+                | Delete
+                i.trash.outline.icon
