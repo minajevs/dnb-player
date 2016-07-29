@@ -23,7 +23,7 @@ var Player = {
     }
 };
 
-Player.init = function(container, onLoading, onReady, onReceived, onPlaylistUpdate, callback){
+Player.init = function(container, onLoading, onReady, onReceived, onPlaylistUpdate, onPlaying, callback){
     var self = this;
     self.audio = WaveSurfer.create({
         container: container,
@@ -39,7 +39,9 @@ Player.init = function(container, onLoading, onReady, onReceived, onPlaylistUpda
         self.onLoading = onLoading;
         self.onReady = onReady;
         self.onReceived = onReceived;
+        self.onPlaying = onPlaying;
         self.audio.on('loading', self.onLoading);
+        self.audio.on('audioprocess', self.onPlaying);
         self.audio.on('finish', () => {self.next()});
         self.playlist.init(onPlaylistUpdate, () => {
             self.load('', callback);

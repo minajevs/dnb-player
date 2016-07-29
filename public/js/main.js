@@ -1,5 +1,6 @@
 var ppBtn = $('#playPause');
 var songName = $('#songTitle');
+var currentTime = $('#currentTime');
 var nextSong = $('#nextSong');
 var progress = $('#progress');
 var waveformWrapper = $('#waveformWrapper');
@@ -82,6 +83,7 @@ $(document).ready(() => {
         onReady,
         onReceived,
         onPlaylistUpdate,
+        onPlaying,
         () => {     //callback
             Player.setVolume(maxVolume, maxVolume);
             Player.play()
@@ -110,6 +112,14 @@ function onPlaylistUpdate(){
 function onReady(){
     progress.hide();
     Player.play(onPlay);
+}
+
+function onPlaying(){
+    var time = Player.audio.getCurrentTime();
+    var minutes = Math.floor(time / 60);
+    var seconds = Math.floor(time - minutes * 60);
+    seconds = seconds < 10 ? '0'+seconds : seconds;
+    currentTime.text(minutes + ':' + seconds);
 }
 
 function onReceived(){

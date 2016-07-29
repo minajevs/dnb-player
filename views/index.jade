@@ -9,16 +9,18 @@ block content
           | DnB Player
       .ui.large.form
         .ui.stacked.segment
-          .field#songTitle
+          .field
             if currentSong
-              label #{currentSong.name}
+              label#songTitle #{currentSong.name}
             else
-              label Not Playing
+              label#songTitle Not Playing
           .field
             .waveform#waveform
             .ui.progress#progress
               .bar
                 .progress
+          .field
+            label#currentTime 0:00
           .field
             .ui.buttons
               button.ui.button.active.positive#playPause
