@@ -5,6 +5,10 @@ config.debug = true;
 config.web = {};
 config.soundcloud = {};
 
+config.login = {};
+config.login.user = 'dexie';
+config.login.pass = 'Zasada123124';
+
 config.web.port = process.env.PORT || '3000';
 config.web.hostname = config.debug ? '//localhost:' + config.web.port : '//dnb.dexie.me';
 

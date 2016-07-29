@@ -20,13 +20,14 @@ block scripts
     script.
         $(document).ready(function(){
             $('.deleteTrack').on('click', function(){
+                console.log($(this));
                 var id = $(this).data('id');
                 $.post({
                     url: '/deleteTrack',
                     data: {
                         id: id
                     },
-                    success: function () {
+                    success: function (data) {
                         $('#allTracks').html(data);
                     }
                 })

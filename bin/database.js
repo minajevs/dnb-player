@@ -35,13 +35,11 @@ database.addSong = function(song){
 };
 
 database.updateSong = function(song){
-    if(!(song instanceof Song)) return; //TODO: Error catching (db not ready etc)
     this.songs.update(song);
     db.saveDatabase();
 };
 
 database.deleteSong = function(song){
-    if(!(song instanceof Song)) return; //TODO: Error catching (db not ready etc)
     this.songs.remove(song);
     db.saveDatabase();
 };
