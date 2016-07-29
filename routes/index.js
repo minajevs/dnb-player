@@ -31,8 +31,8 @@ router.get('/playlist', function(req, res, next){
     var songs = songIds.map(function(id){
         return database.songs.findOne({id: id});
     });
-    //res.json(songs);
-    res.render('playlist', {songs: songs});
+    res.json(songs);
+    //res.render('playlist', {songs: songs});
 });
 
 router.get('/add', checkAuth, function(req, res){
